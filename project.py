@@ -21,5 +21,15 @@ def members_page():
     return render_template('members.html')
 
 
+@app.route('/tvshows')
+def shows_page():
+    return render_template('shows.html')
+
+
+@app.route('/networks')
+def networks_page():
+    return render_template('networks.html')
+
+
 if __name__ == '__main__':
     app.run(debug=True)
