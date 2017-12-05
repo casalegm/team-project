@@ -1,0 +1,34 @@
+{% extends "home-page.html"%}
+{% block title %}All Networks{% endblock %}
+{% block page_content%}
+<!-- Page Content -->
+  <div class="container">
+    <h1 class="mt-5"><i class="fa fa-television" aria-hidden="true"></i> Networks:</h1>
+    <div class="row bottom-margin">
+      <a href="/network/add" class="btn btn-primary" role="button" aria-disabled="true">Add Networks</a>
+    </div>
+    {% if networks %}
+      <table class="table">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Name</th>
+            <th>Description</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for network in networks %}
+          <tr>
+              <th scope="row">{{network.id}}</th>
+              <td>{{network.name}}</td>
+              <td>{{network.description}}</td>
+          </tr>
+          {% endfor%}
+        </tbody>
+      </table>
+    {% else %}
+      <h3>there are no networks in the database yet.</h3>
+    {% endif %}
+  </div>
+  {% endblock%}
