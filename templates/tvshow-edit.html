@@ -1,0 +1,48 @@
+{% extends "home-page.html"%}
+{% block title %}Edit Show{% endblock %}
+{% block page_content%}
+
+  <!-- Page Content -->
+  <div class="container">
+    <h1 class="mt-5"><i class="fa fa-archive" aria-hidden="true"></i> Edit Show:</h1>
+    <form action="/tvshow/edit/{{show.id}}" method="post">
+      <div class="form-group">
+        <label>Title</label>
+        <input class="form-control" type="text" name="title" value="{{show.title}}" required="true">
+      </div>
+      <div class="form-group">
+        <label>Year</label>
+        <select class="form-control" name="year">
+          {% for i in range(1950, 2025) %}
+            {% if i == show.year %}
+              <option selected="selected">{{i}}</option>
+            {% else %}
+              <option>{{i}}</option>
+            {% endif %}
+          {% endfor %}
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Network</label>
+        <select class="form-control" name="network">
+          {% for network in networks %}
+            {% if network == show.network %}
+              <option selected="selected">{{network.name}}</option>
+            {% else %}
+              <option>{{network.name}}</option>
+            {% endif %}
+          {% endfor %}
+        </select>
+      </div>
+      <div class="form-group">
+        Network not in the list? <a href="/network/add" class="btn btn-success" role="button" aria-disabled="true">Add Networks</a>
+      </div>
+      <div class="form-group">
+        <label>Description</label>
+        <textarea class="form-control" name="description" required="true">{{show.description}}</textarea>
+      </div>
+      <button type="submit" class="btn btn-primary">Save Changes</button>
+    </form>
+  </div>
+
+{% endblock%}

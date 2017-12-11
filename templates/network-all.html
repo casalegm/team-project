@@ -23,6 +23,8 @@
               <th scope="row">{{network.id}}</th>
               <td>{{network.name}}</td>
               <td>{{network.description}}</td>
+              <td><a href="/network/edit/{{network.id}}" class="btn btn-success" role="button">Edit</a></td>
+
           </tr>
           {% endfor%}
         </tbody>

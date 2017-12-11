@@ -61,6 +61,24 @@ def add_shows():
         db.session.commit()
         return redirect(url_for('shows_page'))
 
+@app.route('/tvshow/edit/<int:id>', methods=['GET', 'POST'])
+def edit_show(id):
+    show = Show.query.filter_by(id=id).first()
+    networks = Network.query.all()
+    if request.method == 'GET':
+        return render_template('tvshow-edit.html', show=show, networks=networks)
+    if request.method == 'POST':
+        # update data based on the form data
+        show.title = request.form['title']
+        show.year = request.form['year']
+        show.description = request.form['description']
+        network_name = request.form['network']
+        network = Network.query.filter_by(name=network_name).first()
+        show.network = network
+        # update the database
+        db.session.commit()
+        return redirect(url_for('shows_page'))
+
 
 @app.route('/networks')
 def networks_page():
@@ -82,6 +100,18 @@ def add_networks():
         db.session.commit()
         return redirect(url_for('networks_page'))
 
+@app.route('/network/edit/<int:id>', methods=['GET', 'POST'])
+def edit_network(id):
+    network = Network.query.filter_by(id=id).first()
+    if request.method == 'GET':
+        return render_template('network-edit.html', network=network)
+    if request.method == 'POST':
+        # update data based on the form data
+        network.name = request.form['name']
+        network.description = request.form['description']
+        # update the database
+        db.session.commit()
+        return redirect(url_for('networks_page'))
 
 if __name__ == '__main__':
     app.run(debug=True)
