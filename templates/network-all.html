@@ -23,7 +23,11 @@
               <th scope="row">{{network.id}}</th>
               <td>{{network.name}}</td>
               <td>{{network.description}}</td>
-              <td><a href="/network/edit/{{network.id}}" class="btn btn-success" role="button">Edit</a></td>
+          <td>
+              <a href="/network/edit/{{network.id}}" class="btn btn-success" role="button">Edit</a>
+              <a href="/network/delete/{{network.id}}" class="btn btn-danger" role="button">Delete</a>
+              <button class="btn btn-warning delete_ajax_btn" role="button" data-network-id="{{network.id}}">Delete Ajax</button>
+          </td>
 
           </tr>
           {% endfor%}
@@ -34,3 +38,56 @@
     {% endif %}
   </div>
   {% endblock%}
+
+{% block scripts%}
+{{super()}}
+<script>
+  $(document).ready(function() {
+    $(".delete_ajax_btn").click(function(event) {
+      var network_id = $(this).data("network-id");
+      // get the table row of this show
+      var row = $(this).parent().parent();
+      swal({
+          title: "Are you sure?",
+          text: "All shows of this network will be deleted too!",
+          type: "warning",
+          html: true,
+          showCancelButton: true,
+          confirmButtonColor: "#DD6B55",
+          confirmButtonText: "Yes, delete it!",
+          closeOnConfirm: false,
+          showLoaderOnConfirm: true
+        },
+        function(isConfirm) {
+          if (isConfirm) {
+            $.ajax({
+                type: "DELETE",
+                url: "/api/network/" + network_id,
+                success: function(response) {
+                  console.log(response);
+                  row.remove(); // remove the table row
+                  swal({
+                    title: "Deleted!",
+                    text: response.name + " has been deleted.",
+                    type: "success",
+                    timer: 2500,
+                    showConfirmButton: false
+                  }); // end of SweetAlert
+                } // end of success callback function
+              }) // end of ajax call
+              .fail(function(error) {
+                // console.log(data);
+                swal({
+                  title: "Oops...",
+                  text: "Deletion failed",
+                  type: "error",
+                  timer: 2000,
+                  showConfirmButton: false
+                }); // end of SweetAlert
+              }); // end of fail callback function
+          } // end of if confirmed block
+        }); // end of confirmed function of SweetAlert
+    }); // end of button click event function
+  }); // end doc ready
+</script>
+{% endblock%}

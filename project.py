@@ -1,5 +1,5 @@
 import os
-from flask import Flask, session, render_template, request, flash, redirect, url_for
+from flask import Flask, session, render_template, request, flash, redirect, url_for, jsonify
 from flask_sqlalchemy import SQLAlchemy
 
 app = Flask(__name__)
@@ -79,6 +79,25 @@ def edit_show(id):
         db.session.commit()
         return redirect(url_for('shows_page'))
 
+@app.route('/tvshow/delete/<int:id>', methods=['GET', 'POST'])
+def delete_show(id):
+    show = Show.query.filter_by(id=id).first()
+    networks = Network.query.all()
+    if request.method == 'GET':
+        return render_template('tvshow-delete.html', show=show, networks=networks)
+    if request.method == 'POST':
+        db.session.delete(show)
+        db.session.commit()
+        return redirect(url_for('show_all_shows'))
+
+
+@app.route('/api/tvshow/<int:id>', methods=['DELETE'])
+def delete_ajax_show(id):
+    show = Show.query.get_or_404(id)
+    db.session.delete(show)
+    db.session.commit()
+    return jsonify({"id": str(show.id), "title": show.title})
+
 
 @app.route('/networks')
 def networks_page():
@@ -112,6 +131,24 @@ def edit_network(id):
         # update the database
         db.session.commit()
         return redirect(url_for('networks_page'))
+
+@app.route('/network/delete/<int:id>', methods=['GET', 'POST'])
+def delete_network(id):
+    network = Network.query.filter_by(id=id).first()
+    if request.method == 'GET':
+        return render_template('network-delete.html', network=network)
+    if request.method == 'POST':
+        db.session.delete(network)
+        db.session.commit()
+        return redirect(url_for('show_all_networks'))
+
+
+@app.route('/api/network/<int:id>', methods=['DELETE'])
+def delete_ajax_network(id):
+    network = Network.query.get_or_404(id)
+    db.session.delete(network)
+    db.session.commit()
+    return jsonify({"id": str(network.id), "name": network.name})
 
 if __name__ == '__main__':
     app.run(debug=True)
