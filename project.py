@@ -15,7 +15,7 @@ class Network(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(64))
     description = db.Column(db.Text)
-    shows = db.relationship('Show', backref='network')
+    shows = db.relationship('Show', backref='network', cascade='delete')
 
 
 class Show(db.Model):

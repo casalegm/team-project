@@ -15,6 +15,13 @@
  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.css">
  <!-- Toastr CSS -->
  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css">
+
+<style>
+  h1.text-center {
+    color: Maroon;
+  }
+</style>
+
   {% endblock%}
 </head>
 
@@ -24,6 +31,8 @@
     <div class="container">
       <a class="navbar-brand" href="/">
        </a>
+       <h1 class="text-center"><i class="fa fa-code" aria-hidden="true"></i>MISY350 Team Project</h1>
+
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
          <span class="navbar-toggler-icon"></span>
        </button>
@@ -48,8 +57,8 @@
     </div>
   </nav>
 
-  <h1> MISY350 Team Project </h1>
-  <h1> MISY350 Team Project </h1>
+  <h1 class="text-center"><i class="fa fa-code" aria-hidden="true"></i>MISY350 Team Project</h1>
+  <marquee><img src="static/img/team.jpg" class="text-center" alt="Team Project"></marquee>
 
   {% block page_content%}
   {% endblock%}
@@ -89,6 +98,6 @@
      {% endfor %}
    </script>
    {% endblock%}
- </body>
 
+ </body>
  </html>
