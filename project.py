@@ -88,7 +88,7 @@ def delete_show(id):
     if request.method == 'POST':
         db.session.delete(show)
         db.session.commit()
-        return redirect(url_for('show_all_shows'))
+        return redirect(url_for('shows_page'))
 
 
 @app.route('/api/tvshow/<int:id>', methods=['DELETE'])
@@ -140,7 +140,7 @@ def delete_network(id):
     if request.method == 'POST':
         db.session.delete(network)
         db.session.commit()
-        return redirect(url_for('show_all_networks'))
+        return redirect(url_for('networks_page'))
 
 
 @app.route('/api/network/<int:id>', methods=['DELETE'])
